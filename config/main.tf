@@ -21,3 +21,17 @@ resource "commonfate_aws_idc_integration" "main" {
   sso_instance_arn  = "arn:aws:sso:::instance/ssoins-34567890vfftygfh"
   sso_region        = "us-east-1"
 }
+
+resource "commonfate_webhook_provisioner" "aws" {
+  url = "<The provisioner_url output from the main module e.g http://common-fate-prod-builtin-provisioner.common-fate.prod.internal:9999>"
+  capabilities = [
+    {
+      target_type = "AWS::Account"
+      role_type   = "AWS::IDC::PermissionSet"
+      belonging_to = {
+        type = "AWS::Organization"
+        id   = "<Your AWS Organization ID>"
+      }
+    },
+  ]
+}
